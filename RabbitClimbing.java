@@ -67,28 +67,56 @@ class RabbitClimbing
             return 0;
         }
         
-        if(dp[currStep][currLane]!=0)
+        if(dp[currStep][currLane]!=-1)
         {
             return dp[currStep][currLane];
         }
-        
-        int result=Integer.MAX_VALUE;
-        for(int i=1;i<=3;i++)
+
+        if(currLane!=obstacles[currStep+1])
         {
-            if(obstacles[currStep]!=i && obstacles[currStep+1]!=i)
+            dp[currStep][currLane]=getMinimumJumps(n,obstacles,dp,currStep+1,currLane);
+        }
+        else
+        {
+            int jump1=Integer.MAX_VALUE;
+            int jump2=Integer.MAX_VALUE;
+
+            if(currLane==1)
             {
-                if(i==currLane)
+                if(obstacles[currStep]!=2)
                 {
-                    result=Math.min(result,getMinimumJumps(n,obstacles,dp,currStep+1,i));
+                    jump1=1+getMinimumJumps(n,obstacles,dp,currStep+1,2);
                 }
-                else
+                if(obstacles[currStep]!=3)
                 {
-                    result=Math.min(result,1+getMinimumJumps(n,obstacles,dp,currStep+1,i));
+                    jump2=1+getMinimumJumps(n,obstacles,dp,currStep+1,3);
                 }
             }
+            else if(currLane==2)
+            {
+                if(obstacles[currStep]!=1)
+                {
+                    jump1=1+getMinimumJumps(n,obstacles,dp,currStep+1,1);
+                }
+                if(obstacles[currStep]!=3)
+                {
+                    jump2=1+getMinimumJumps(n,obstacles,dp,currStep+1,3);
+                }
+            }
+            else
+            {
+                if(obstacles[currStep]!=1)
+                {
+                    jump1=1+getMinimumJumps(n,obstacles,dp,currStep+1,1);
+                }
+                if(obstacles[currStep]!=2)
+                {
+                    jump2=1+getMinimumJumps(n,obstacles,dp,currStep+1,2);
+                }
+            }
+            
+            dp[currStep][currLane]=Math.min(jump1,jump2);
         }
-        
-        dp[currStep][currLane]=result;
         
         return dp[currStep][currLane];
     }
@@ -104,6 +132,13 @@ class RabbitClimbing
         }
         
         int dp[][]=new int[n+1][4];
+        for(int i=0;i<=n;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                dp[i][j]=-1;
+            }
+        }
         int result=getMinimumJumps(n+1,obstacles,dp,0,2);
         System.out.println(result);
     }
