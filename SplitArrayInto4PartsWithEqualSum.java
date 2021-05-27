@@ -75,13 +75,13 @@ class SplitArrayInto4PartsWithEqualSum
         }
         
         boolean result=false;
-        for(int p=0;p<n-3;p++)
+        for(int p=0;p<n-2;p++)
         {
             int pDiff=prefixSum[p];
             
             int q=p+1;
             boolean pFlag=false;
-            while(q<n-2)
+            while(q<n-1)
             {
                 if(prefixSum[q]-prefixSum[p+1]==pDiff)
                 {
@@ -93,7 +93,7 @@ class SplitArrayInto4PartsWithEqualSum
             
             int r=q+1;
             boolean qFlag=false;
-            while(r<n-1)
+            while(r<n)
             {
                 if(prefixSum[r]-prefixSum[q+1]==pDiff)
                 {
@@ -104,7 +104,7 @@ class SplitArrayInto4PartsWithEqualSum
             }
             
             boolean rFlag=false;
-            if(prefixSum[n]-prefixSum[r+1]==pDiff)
+            if(r+1<n && prefixSum[n]-prefixSum[r+1]==pDiff)
             {
                 rFlag=true;
             }
